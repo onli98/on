@@ -2,19 +2,18 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>WhatsApp Redirect</title>
+  <title>Redirecionando para o WhatsApp...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background-color: #ffffff; /* Fundo branco */
-      color: #333333; /* Texto escuro */
+      background-color: #075E54;
+      color: #FFFFFF;
       font-family: 'Segoe UI', 'Roboto', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      margin: 0;
       text-align: center;
     }
     h1 {
@@ -24,11 +23,12 @@
     .contador {
       font-size: 3rem;
       font-weight: bold;
-      color: #4CAF50; /* Verde suave */
+      color: #25D366;
+      margin-top: 20px;
     }
     .check {
       font-size: 4rem;
-      color: #4CAF50;
+      color: #25D366;
       display: none;
     }
   </style>
@@ -40,36 +40,37 @@
   <div class="check" id="check">✔</div>
 
   <script>
-    // Lista de números do WhatsApp
+    // Lista com dois números de WhatsApp
     const numeros = [
-      '5573991360534',
-      '5573988023534'
+      '5573991379244',
+      '5573991299778'
     ];
 
-    // Rotação de números com localStorage
-    let indice = localStorage.getItem('indiceNumero');
-    indice = indice ? parseInt(indice) : 0;
+    // Pega o índice atual salvo no navegador (ou começa com 0)
+    let indice = parseInt(localStorage.getItem('indiceNumero')) || 0;
+
+    // Define o número atual e salva o próximo índice para a próxima visita
     const numeroAtual = numeros[indice];
     const proximoIndice = (indice + 1) % numeros.length;
     localStorage.setItem('indiceNumero', proximoIndice);
 
-    // Link com número rotativo
-    const link = "https://wa.me/" + numeroAtual;
+    // Mensagem personalizada com encode para URL
+    const mensagem = encodeURIComponent("Olá, Amor! Como tenho acesso ao seu conteúdo.");
+    const link = `https://wa.me/${numeroAtual}?text=${mensagem}`;
 
-    // Elementos
+    // Contador regressivo de 3 segundos
     let segundos = 3;
-    const contador = document.getElementById('contador');
-    const check = document.getElementById('check');
+    const contador = document.getElementById("contador");
+    const check = document.getElementById("check");
 
-    // Atualiza o cronômetro a cada segundo
     const interval = setInterval(() => {
       segundos--;
       if (segundos > 0) {
         contador.textContent = segundos;
       } else {
         clearInterval(interval);
-        contador.style.display = 'none';
-        check.style.display = 'block';
+        contador.style.display = "none";
+        check.style.display = "block";
         setTimeout(() => {
           window.location.href = link;
         }, 1000);
